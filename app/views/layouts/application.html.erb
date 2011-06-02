@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Sum Dum App</title>
+		<%= stylesheet_link_tag 'reset.css', 'global.css' -%>
+		<%= javascript_include_tag 'http://code.jquery.com/jquery-1.6.1.min.js' -%>
+	</head>
+	<body>
+		<div class="rudimentary_rapper">
+			<%= yield %>	
+		</div>
+	</body>
+	<%= javascript_include_tag 'watch' -%>
+</html>
