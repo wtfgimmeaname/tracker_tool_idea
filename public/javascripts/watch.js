@@ -18,15 +18,36 @@
 		// setup listeners
 var Watcher = window.Watcher || {};
 
+Watcher.Model = function() {
+  return {
+    init : function(dataType, group) {
+      switch(dataType) {
+        case 0 :
+          var data = {
+            testGroup : group,
+            referrer  : document.referrer,
+            startTime : new Date(),
+          }
+          return data;
+        default :
+          return false;
+      }
+    }
+  }
+}();
 Watcher.Controller = function() {
   return {
-    unload : function unload() {
+    unload : function ul(dataObj) {
+      console.log(dataObj);
+      $(window).unload(function() {
+        dataObj.endTime = new Date();
         $.ajax({
           type: "POST",
           url: "/",
-          data: "super=duper&user=dustin",
-          dataType: "json"
+          async: false,
+          data: data
         });
+      });
     }
   }
 }();
@@ -42,15 +63,12 @@ Watcher.View = function() {
 
   return {
     executeAB : function exAB(t) {
-      // Show user test based upon their assigned group
       var testSubj  = $('.'+t.name);
       var uGroup    = Watcher.View.getUserGroup(t);
       $(testSubj[uGroup]).show();
 
-      //Setup userobj
-
-      //Send onunload
-      Watcher.Controller.unload();
+      var dataObject = Watcher.Model.init(0, uGroup);
+      Watcher.Controller.unload(dataObject);
     },
     getUserGroup : function gup(t) {
 		  var storedData 	  = window.localStorage.getItem(t.name);
