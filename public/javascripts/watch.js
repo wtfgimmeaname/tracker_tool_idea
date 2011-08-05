@@ -19,16 +19,18 @@
 var Watcher = window.Watcher || {};
 
 Watcher.Model = function() {
+  var ABDataObj = function(g) {
+    var data = {
+      testGroup : g,
+      referrer  : document.referrer,
+      startTime : new Date(),
+    }; return data;
+  };
   return {
     init : function(dataType, group) {
       switch(dataType) {
-        case 0 :
-          var data = {
-            testGroup : group,
-            referrer  : document.referrer,
-            startTime : new Date(),
-          }
-          return data;
+        case 0 : //AB test
+          return ABDataObj(group);
         default :
           return false;
       }
@@ -39,14 +41,14 @@ Watcher.Controller = function() {
   return {
     unload : function ul(dataObj) {
       console.log(dataObj);
-      $(window).unload(function() {
+      $('.send_data').click(function() {
         dataObj.endTime = new Date();
-        $.ajax({
-          type: "POST",
-          url: "/",
-          async: false,
-          data: data
-        });
+        $.post("/home/watcher", dataObj, function(data) {
+          console.log(data);
+        })
+        .success(function() {})
+        .error(function() {})
+        .complete(function() {});
       });
     }
   }
