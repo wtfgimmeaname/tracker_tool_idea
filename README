@@ -1,2 +1,5 @@
-Using a dummy rails front-end to explore an idea that I have
+Using a dumb rails front-end to explore an idea that I have
 for a javascript ab testing tool slash user analysist tool.
+
+The meat and potatoes of this idea exists in:
+public/javascripts/watch.js
