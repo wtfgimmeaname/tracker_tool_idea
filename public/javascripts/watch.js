@@ -26,6 +26,7 @@ Watcher.Model = function() {
       startTime : new Date(),
     }; return data;
   };
+
   return {
     init : function(dataType, group) {
       switch(dataType) {
@@ -37,6 +38,7 @@ Watcher.Model = function() {
     }
   }
 }();
+
 Watcher.Controller = function() {
   return {
     unload : function ul(dataObj) {
@@ -82,7 +84,6 @@ Watcher.View = function() {
       }
     },
 		// Methods for handling cookie storage
-    // Logic from w3schools
     createCookie : function cc(name,value,days) {
       var exd = new Date();
       exd.setDate(exd.getDate() + days);
@@ -109,24 +110,18 @@ Watcher.View = function() {
 
 Watcher.Class = function() {
 	return {
-		init : function(t) {
-      switch(t.type) {
-        case "ab_test":
-          Watcher.View.executeAB(t);
-        default:
-          return false;
-      }
+		ABTest : function(t) {
+      Watcher.View.executeAB(t);
 		}
 	}
 }();
 
 var dummy = {
 	name 		: 'title_test',
-	type 		: 'ab_test',
 	groups 	: [50, 50],
 }
 
-Watcher.Class.init(dummy);
+Watcher.Class.ABTest(dummy);
 
 
 
