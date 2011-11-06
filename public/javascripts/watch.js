@@ -1,66 +1,49 @@
-//Watch javascript
-
-/* TODOS
- * - We have many kinds of test objects.
- *		- test has groups and users in groups
- *		- test has results storage
+/*
+ * HotMaus javascript
  *
- * - On load, see test requests, ajax in with
- * 		test requests and see what exists. If
- * 		
-*/
-		// INIT
-		// get running tests, user from storage
-				// gather requested test
-				// ajax request in
-				// send response
-		// write json and determine ways to save
-		// setup listeners
-var Watcher = window.Watcher || {};
+ * Capture mouse movements to graph
+ * Count time on page 
+ * Before and after urls
+ * Time tracking
+ *
+ */
+var HotMaus = window.HotMaus || {};
 
-Watcher.Model = function() {
-}();
+HotMaus = (function() {
+  var count;
+  var coord = {};
 
-Watcher.View = function() {
-
-		// Methods for handling cookie storage
-    createCookie : function cc(name,value,days) {
-      var exd = new Date();
-      exd.setDate(exd.getDate() + days);
-      var val = escape(value) + ((days==null) ? 
-        "" : "; expires="+exd.toUTCString());
-      document.cookie=name + "=" + val;
-    },
-    readCookie : function rc(name) {
-      var i,x,y,ARRcookies = document.cookie.split(";");
-      for (i = 0; i < ARRcookies.length; i++) {
-        x = ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
-        y = ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
-        x = x.replace(/^\s+|\s+$/g,"");
-        if (x == name) {
-          return unescape(y);
-        }
-      }
-    },
-		deleteCookie : function dc(name) {
-			Watcher.View.createCookie(name,"",-1);
-		}
+  function init() {
+    //document.onmousemove = getMouseCoords;
+    window.onscroll = windowOffset;
   }
-}();
 
-Watcher.Class = function() {
-	return {
-	}
-}();
+  function windowOffset(evt) {
+    wx = window.screenX;
+    wy = window.screenY;
+    console.log(wx + " is window x and y is " + wy);
+  }
 
+  function getMouseCoords(evt) {
+    var px; var py;
+    var evt = event || window.event;
+    if (evt.pageX || evt.pageY) {
+      px = evt.pageX;
+      py = evt.pageY;
+    } else if (evt.clientX || evt.clientY) {
+      px = evt.clientX + document.body.scrollLeft
+         + document.documentElement.scrollLeft;
+      py = evt.clientY + document.body.scrollTop
+         + document.documentElement.scrollTop;
+    }
 
+    var tst = { count:1, x:px, y:py }
+    console.log(tst);
+  }
 
+  return {
+    init : init
+  }
+})();
 
-
-
-/* IDEAS
- * - If strong computer, capture mouse movements to graph // sessionStorage
- * - Count time on page // sessionStorage?
- * - Before and after urls
- * - Time tracking
-*/
+$(document).ready(HotMaus.init);
