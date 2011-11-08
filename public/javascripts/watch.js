@@ -10,18 +10,21 @@
 var HotMaus = window.HotMaus || {};
 
 HotMaus = (function() {
-  var count;
+  var count = 1;
   var coord = {};
 
   function init() {
-    //document.onmousemove = getMouseCoords;
+    document.onmousemove = getMouseCoords;
     window.onscroll = windowOffset;
+    var docheight = document.height;
+    var docwidth  = document.width;
   }
 
   function windowOffset(evt) {
-    wx = window.screenX;
-    wy = window.screenY;
-    console.log(wx + " is window x and y is " + wy);
+    ox = window.pageXOffset;
+    oy = window.pageYOffset;
+    var data = { type: 0, cnt:count, x:ox, y:oy }
+    console.log(data);
   }
 
   function getMouseCoords(evt) {
@@ -36,9 +39,9 @@ HotMaus = (function() {
       py = evt.clientY + document.body.scrollTop
          + document.documentElement.scrollTop;
     }
-
-    var tst = { count:1, x:px, y:py }
-    console.log(tst);
+    count += 1;
+    var data = { type: 1, cnt:count, x:px, y:py }
+    console.log(data);
   }
 
   return {
